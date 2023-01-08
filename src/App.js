@@ -23,6 +23,7 @@ import RightSideBar from './components/RightSideBar'
 const open = true;
 
 function App() {
+
   return (
     <>
       <Box sx={{ display: 'flex' }}>
