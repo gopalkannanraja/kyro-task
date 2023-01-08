@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
+import { useParams } from 'react-router-dom'
 import { Grid, TextField, Typography, InputAdornment, Button } from '@mui/material'
 import {
   Person,
@@ -8,17 +9,19 @@ import {
   LocationOnOutlined
 } from '@mui/icons-material'
 import './styles.css'
-import { APP_COLOR, SECONDARY_COLOR, API_BASE_URL, PROFILE_UPDATE_MESSAGE, PROFILE_UPDATE_ERROR } from '../../constants'
+import { APP_COLOR, SECONDARY_COLOR, API_BASE_URL } from '../../constants'
 import Notification from '../../components/Notification'
 
 
-function ProfilePage({ id }) {
+function ProfilePage() {
 
   const [userFields, setUserFields] = useState({})
   const [editUesrDetails, setEditUesrDetails] = useState({})
   const [notification, setNotification] = useState({ isShow: false })
   const [goDashboardNotifi, setGoDashboardNotifi] = useState(false)
 
+  const params = useParams()
+  const { id } = params
 
   useEffect(() => {
     if(id) {
@@ -46,8 +49,12 @@ function ProfilePage({ id }) {
             status: "success",
             message: res?.data?.message
           })
-          setEditUesrDetails(userFields)
-          setUserFields({})
+          if(id) {
+            setEditUesrDetails(userFields)
+          } else {
+            setEditUesrDetails(userFields)
+            setUserFields({})
+          }
           setGoDashboardNotifi(true)
         } else {
           setNotification({
@@ -242,18 +249,18 @@ function ProfilePage({ id }) {
           </Grid>
         </form>
       </Grid>
-      <Notification 
-        isShow={notification.isShow}
-        handleClose={notificationClose}
-        message={notification.message}
-        status={notification.status}
-        />
+      {goDashboardNotifi && <Notification 
+        isShow={goDashboardNotifi}
+        handleClose={() => setGoDashboardNotifi(false)}
+        message="Go to Dashboard see your profile details"
+        status="success"
+        />}
       <div className='go-to-dashboard-notifi'>
         <Notification 
-          isShow={goDashboardNotifi}
-          handleClose={() => setGoDashboardNotifi(false)}
-          message="Go to Dashboard see your profile details"
-          status="success"
+          isShow={notification.isShow}
+          handleClose={notificationClose}
+          message={notification.message}
+          status={notification.status}
           />
       </div>
     </Grid>

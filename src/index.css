@@ -1,0 +1,10 @@
+a {
+  text-decoration: none;
+}
+a li {
+  text-decoration: none;
+  color: #a5a5a5;
+}
+tbody {
+  cursor: pointer;
+}

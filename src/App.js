@@ -11,6 +11,7 @@ import {
   ListItemText,
 } from '@mui/material'
 import { MenuRounded, Add } from "@mui/icons-material"
+import { Routes, Route, Link } from 'react-router-dom'
 import AppBar from './components/AppBar'
 import DrawerHeader from './components/DrawerHeader'
 import Drawer from './components/Drawer'
@@ -18,6 +19,7 @@ import { APP_COLOR, MENU_LIST, SECONDARY_COLOR } from './constants';
 import MenuItem from './components/MenuItem'
 import ProfilePage from './containers/ProfilePage'
 import RightSideBar from './components/RightSideBar'
+import Dashboard from './containers/Dashboard'
 
 
 const open = true;
@@ -92,7 +94,9 @@ function App() {
         </AppBar>
         <Drawer variant="permanent" open={open}>
           <DrawerHeader>
-            <img alt="logo" style={{ position: 'relative', right: -20 }} src={require('./assets/kyro-logo.jpg')} height="65" />
+            <Link to="/">
+              <img alt="logo" style={{ position: 'relative', right: -20 }} src={require('./assets/kyro-logo.jpg')} height="65" />
+            </Link>
             <IconButton
               color="inherit"
               aria-label="open drawer"
@@ -107,7 +111,9 @@ function App() {
             </IconButton>
           </DrawerHeader>
           <List>
-            {MENU_LIST.map(text => <MenuItem key={text} text={text} open={open} />)}
+            {MENU_LIST.map(text => <Link key={text} to={`/${text}`}>
+              <MenuItem text={text} open={open} />
+            </Link>)}
           </List>
           <div style={{
             position: 'relative',
@@ -118,7 +124,13 @@ function App() {
         </Drawer>
         <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
           <DrawerHeader />
-          <ProfilePage />
+          <Routes>
+            <Route path='/' element={<ProfilePage />} />
+            <Route path='/home' element={<ProfilePage />}>
+              <Route path=':id' element={<ProfilePage />} />
+            </Route>
+            <Route path='/dashboard' element={<Dashboard />} />
+          </Routes>
         </Box>
       </Box>
       <RightSideBar />

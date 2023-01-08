@@ -1,6 +1,6 @@
 export const DRAWER_WIDTH = 240
 
-export const RIGHT_DRAWER_WIDTH = 400
+export const RIGHT_DRAWER_WIDTH = 350
 
 export const MESSAGE_COUNT = "06"
 
